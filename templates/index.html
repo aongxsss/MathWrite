@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Lato:ital,wght@1,300&display=swap" rel="stylesheet">
+
+    <title>MathWrite</title>
+    <style>
+
+        canvas {
+            background-color: white;
+            border: 3px solid rgb(74, 74, 74);
+            /* border: 1px solid white; */
+            display: inline-block;
+            vertical-align: top;
+            
+        }
+
+
+        body {
+            background-color: #1E1E1E;
+            color: white;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            font-family: 'Lato', sans-serif;
+            
+
+        }
+
+      
+        
+        #head {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0px 50px 30px 50px;
+        }
+
+        #clear {
+            margin-left: 10px;
+        }
+        #save {
+            margin-left: 10px;
+        }
+
+        #result-area {
+            width: 80%;
+            align-self: center;
+            justify-self: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            
+          
+            
+        }
+
+        #prediction {
+            font-size: 72px;
+            font-weight: bold;
+            margin-top: 20px;
+            
+        }
+        #confidence {
+            font-size: 36px;
+            font-weight: bold;
+            margin-top: 5px;
+
+        }
+        .box-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+        .btn-canvas {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .btn-canvas button {
+            cursor: pointer;
+            border-radius: 8px;
+        } 
+    </style>
+</head>
+<body>
+    <div id='head'>
+        <h1>Handwritten Math symbols Recognition Web App</h1>
+        <span>"MathWrite" Web App for predicting all 6 math symbols: + , - , x , ÷ , ) and ( by drawing on the canvas and clicking Prediction. This model uses Decision Tree Algorithm for training and achieves over 85% accuracy. Let's give it a try!"</span>
+    </div>
+<div class="box-body">
+    <div >
+        <canvas id="canvas" width="280" height="280"></canvas>
+        <div class="btn-canvas">
+            <button onclick="Prediction()">Prediction</button>
+            <button id="clear" onclick="clearCanvas()">Clear</button>
+            <button id = 'save' onclick="saveImage()">Save</button>
+        </div>
+   </div>
+    <div id="result-area">
+        <h2>Prediction Result:</h2>
+        <div id="prediction">?</div>
+        <h2>Confidence:</h2>
+        <div id="confidence">?</div>
+    </div>
+   
+</div>
+
+
+
+    <br>
+    <script>
+       async function  Prediction () {
+            var newCanvas = document.createElement('canvas');
+            newCanvas.width = canvas.width;
+            newCanvas.height = canvas.height;
+            var context = newCanvas.getContext('2d');
+
+            context.fillStyle = getComputedStyle(canvas).backgroundColor;
+            context.fillRect(0, 0, newCanvas.width, newCanvas.height);
+
+            context.drawImage(canvas, 0, 0);
+            var imageData = newCanvas.toDataURL('image/png');
+            const res = await fetch('/predict', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    image: imageData,
+                }),
+            });
+
+            const data = await res.json();
+            document.getElementById('prediction').innerHTML = data.prediction;
+            document.getElementById('confidence').innerHTML = data.confidence;
+        }
+        function clearCanvas() {
+            canvas.width = canvas.width;
+            document.getElementById('prediction').innerHTML = '?';
+            document.getElementById('confidence').innerHTML = '?';
+        }
+
+        document.getElementById('clear').addEventListener('click', function () {
+            canvas.width = canvas.width;
+        });
+
+        var saveImageCounter = 0;
+        function saveImage() {
+            var newCanvas = document.createElement('canvas');
+            newCanvas.width = canvas.width;
+            newCanvas.height = canvas.height;
+
+            var context = newCanvas.getContext('2d');
+            context.fillStyle = getComputedStyle(canvas).backgroundColor;
+            context.fillRect(0, 0, newCanvas.width, newCanvas.height);
+
+            context.drawImage(canvas, 0, 0);
+            var imageData = newCanvas.toDataURL('image/jpg');
+
+            saveImageCounter++;
+            var fileName = '+_test_' + saveImageCounter + '.jpg';
+
+            var link = document.createElement('a');
+            link.download = fileName;
+            link.href = imageData;
+            link.click();
+            // var imageData = newCanvas.toDataURL('image/png');
+            // var link = document.createElement('a');
+            // link.download = 'image.png';
+            // link.href = imageData;
+            // link.click();
+        }
+
+        var canvas = document.getElementById('canvas');
+        var context = canvas.getContext('2d');
+        var lastX, lastY;
+        var isMouseDown = false;
+
+        canvas.addEventListener('mousedown', function (event) {
+            lastX = event.offsetX;
+            lastY = event.offsetY;
+            isMouseDown = true;
+        });
+        canvas.addEventListener('mousemove', function (event) {
+            if (isMouseDown) {
+                context.beginPath();
+                context.moveTo(lastX, lastY);
+                context.lineTo(event.offsetX, event.offsetY);
+                context.strokeStyle = 'black'; 
+                context.lineWidth = 2;
+                context.stroke();
+                lastX = event.offsetX;
+                lastY = event.offsetY;
+            }
+        });
+
+        canvas.addEventListener('mouseup', function (event) {
+            isMouseDown = false;
+        });
+
+    
+
+    </script>
+</body>
+
+</html>

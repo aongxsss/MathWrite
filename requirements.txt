@@ -1,0 +1,6 @@
+flask===2.3.2
+Pillow===9.5.0
+matplotlib===3.7.1
+numpy===1.24.3
+scikit-learn===1.1.2
+python-dotenv===1.0.0
