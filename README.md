@@ -1,4 +1,4 @@
-# MathWrite
+# Mathematical symbols Handwriting Recognition
 
 ## How to run this project <br>
 
