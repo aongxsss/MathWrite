@@ -2,7 +2,7 @@
 
 ## How to run this project <br>
 
-**run command following**
+**run command following**<br>
 1.open terminal or cmd <br>
 2.git clone https://github.com/aongxsss/MathWrite.git <br>
 3.pip install -r requirements.txt <br>
