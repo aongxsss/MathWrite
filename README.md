@@ -1,4 +1,4 @@
-# Mathematical symbols Handwriting Recognition
+# Handwritten math symbols recognition Web App
 
 ## How to run this project <br>
 
