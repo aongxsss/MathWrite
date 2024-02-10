@@ -13,7 +13,7 @@
 1.In this project, the decision tree algorithm is used, which is not very accurate. You can take the dataset in the images folder and train a new model. You may use Deep learning, CNN, etc. to increase the accuracy.<br>
 This project is just part of my homework.<br>
 
-2.The web app has a save image button. You can use it to create additional symbol datasets
+2.The web app has a save image button. You can use it to create additional symbol datasets <br>
 Thanks!
 
 ## Samples
