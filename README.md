@@ -5,8 +5,9 @@
 **run command following**<br>
 1.open terminal or cmd <br>
 2.git clone https://github.com/aongxsss/MathWrite.git <br>
-3.pip install -r requirements.txt <br>
-4.python app.py <br>
+3.cd MathWrite <br>
+4.pip install -r requirements.txt <br>
+5.python app.py <br>
 
 ## Notes
 
