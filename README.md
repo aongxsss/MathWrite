@@ -16,6 +16,7 @@ This project is just part of my homework.<br>
 2.The web app has a save image button. You can use it to create additional symbol datasets , You can edit the saveImage() function in index.html to give the file the name you want.<br>
 Thanks!
 
+3.If you are interested in models classification You can see the code in training. of other people at https://www.kaggle.com/datasets/sarunpakkkkkk/handwritten-math-symbols-dataset/code
 ## Samples
 
 ![alt text](image_for_readme/mathwrite_1.png)
